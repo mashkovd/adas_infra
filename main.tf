@@ -12,9 +12,9 @@ terraform {
 
   }
   backend "s3" {
-    bucket     = "adas-infra"
-    key        = "terraform-state"
-    region     = "eu-north-1"
+    bucket = "adas-infra"
+    key    = "terraform-state"
+    region = "eu-north-1"
   }
 }
 
@@ -23,19 +23,38 @@ provider "hcloud" {
   token = var.hcloud_token
 }
 
+resource "hcloud_ssh_key" "default" {
+  name       = "default"
+  public_key = file(var.ssh_public_key)
+}
+
+resource "hcloud_server" "gitlab_runner" {
+  name        = "gitlab-runner"
+  server_type = "cx11"
+  image       = "ubuntu-20.04"
+  datacenter  = "fsn1-dc14"
+
+  ssh_keys = [hcloud_ssh_key.default.id]
+
+  user_data = templatefile("${path.module}/cloud-init.yml", {
+    gitlab_url                       = var.gitlab_url
+    gitlab_runner_registration_token = var.gitlab_runner_registration_token
+  })
+
+  labels = {
+    role = "gitlab-runner"
+  }
+}
+
+
+output "server_ip" {
+  value = hcloud_server.gitlab_runner.ipv4_address
+}
+
 provider "aws" {
   region     = "eu-north-1"
   access_key = var.access_key
   secret_key = var.secret_key
-}
-
-resource "hcloud_server" "s_1" {
-
-  name        = "dev"
-  image       = "ubuntu-20.04"
-  server_type = "cx11"
-  datacenter  = "fsn1-dc14"
-
 }
 
 resource "aws_s3_bucket" "infra_bucket" {

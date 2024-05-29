@@ -34,5 +34,12 @@ To destroy all resources, run:
 terraform destroy
 ```
 
+## Reverse engineering
+```bash
+terraformer import aws --resources="*" --regions=eu-north-1 --excludes=iam,identitystore
+```
+
+[See more at Terraformer's GitHub page](https://github.com/GoogleCloudPlatform/terraformer)
+
 
     

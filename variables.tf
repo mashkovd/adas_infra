@@ -16,3 +16,21 @@ variable "secret_key" {
   description = "The AWS secret key"
   sensitive   = true
 }
+
+
+variable "ssh_public_key" {
+  description = "Path to the SSH public key"
+  type        = string
+  sensitive   = true
+}
+
+variable "gitlab_runner_registration_token" {
+  description = "GitLab Runner registration token"
+  type        = string
+  sensitive   = true
+}
+
+variable "gitlab_url" {
+  description = "GitLab instance URL"
+  type        = string
+}
