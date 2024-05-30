@@ -30,7 +30,7 @@ resource "hcloud_ssh_key" "default" {
 
 resource "hcloud_server" "gitlab_runner" {
   name        = "gitlab-runner"
-  server_type = "cx11"
+  server_type = "cx21"
   image       = "ubuntu-20.04"
   datacenter  = "fsn1-dc14"
 
@@ -39,6 +39,9 @@ resource "hcloud_server" "gitlab_runner" {
   user_data = templatefile("${path.module}/cloud-init.yml", {
     gitlab_url                       = var.gitlab_url
     gitlab_runner_registration_token = var.gitlab_runner_registration_token
+    gitlab_pat                       = var.gitlab_pat
+    private_key                      = file(var.ssh_private_key)
+    public_key                       = file(var.ssh_public_key)
   })
 
   labels = {
@@ -46,13 +49,14 @@ resource "hcloud_server" "gitlab_runner" {
   }
 }
 
-
 output "server_ip" {
   value = hcloud_server.gitlab_runner.ipv4_address
 }
 
+
+
 provider "aws" {
-  region     = "eu-north-1"
+  region     = var.aws_region
   access_key = var.access_key
   secret_key = var.secret_key
 }
@@ -64,4 +68,8 @@ resource "aws_s3_bucket" "infra_bucket" {
     Name        = "adas-infra-bucket"
     Environment = "dev"
   }
+}
+
+module "elasticbeanstalk" {
+  source = "./elasticbeanstalk"
 }
