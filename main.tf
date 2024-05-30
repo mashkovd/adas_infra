@@ -70,6 +70,6 @@ resource "aws_s3_bucket" "infra_bucket" {
   }
 }
 
-module "elasticbeanstalk" {
-  source = "./elasticbeanstalk"
-}
+# module "elasticbeanstalk" {
+#   source = "./elasticbeanstalk"
+# }

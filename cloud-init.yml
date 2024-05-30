@@ -6,16 +6,9 @@ packages:
   - gitlab-runner
 
 runcmd:
-  - echo "${private_key}" > /root/.ssh/id_rsa
-  - chmod 600 /root/.ssh/id_rsa
-  - echo "${public_key}" > /root/.ssh/id_rsa.pub
-  - chmod 644 /root/.ssh/id_rsa.pub
-  - echo "export GITLAB_PAT=${gitlab_pat}" >> /etc/environment
-
   - curl -L --output /usr/local/bin/gitlab-runner https://gitlab-runner-downloads.s3.amazonaws.com/latest/binaries/gitlab-runner-linux-amd64
   - chmod +x /usr/local/bin/gitlab-runner
   - useradd --comment 'GitLab Runner' --create-home gitlab-runner --shell /bin/bash
-  -
   - gitlab-runner install --user=gitlab-runner --working-directory=/home/gitlab-runner
   - gitlab-runner start
-  - gitlab-runner register --non-interactive --url ${gitlab_url} --registration-token ${gitlab_runner_registration_token} --executor docker --description "My Runner" --tag-list "shell" --run-untagged --locked=false
+  - gitlab-runner register --non-interactive --url ${gitlab_url} --registration-token ${gitlab_runner_registration_token} --executor shell --description "My Runner" --tag-list "shell" --run-untagged --locked=false
