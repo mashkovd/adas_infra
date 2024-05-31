@@ -70,6 +70,94 @@ resource "aws_s3_bucket" "infra_bucket" {
   }
 }
 
+resource "aws_iam_user" "gitlab_ci_user" {
+  name = "gitlab-ci-user"
+
+  tags = {
+    Name        = "gitlab-ci-user"
+    Environment = "prod"
+  }
+}
+
+resource "aws_iam_user_policy" "gitlab_ci_user_policy" {
+  name   = "gitlab-ci-user-policy"
+  user   = aws_iam_user.gitlab_ci_user.name
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "elasticbeanstalk:CreateApplication",
+        "elasticbeanstalk:CreateEnvironment",
+        "elasticbeanstalk:UpdateEnvironment",
+        "elasticbeanstalk:TerminateEnvironment",
+        "elasticbeanstalk:DescribeEnvironments",
+        "elasticbeanstalk:DescribeApplicationVersions",
+        "s3:PutObject",
+        "s3:GetObject",
+        "s3:ListBucket"
+      ],
+      "Resource": "*"
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_role" "gitlab_ci_role" {
+  name = "gitlab-ci-role"
+
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "${aws_iam_user.gitlab_ci_user.arn}"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_policy" "gitlab_ci_policy" {
+  name        = "gitlab-ci-policy"
+  description = "Policy for GitLab CI/CD pipeline"
+
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "elasticbeanstalk:CreateApplication",
+        "elasticbeanstalk:CreateEnvironment",
+        "elasticbeanstalk:UpdateEnvironment",
+        "elasticbeanstalk:TerminateEnvironment",
+        "elasticbeanstalk:DescribeEnvironments",
+        "elasticbeanstalk:DescribeApplicationVersions",
+        "s3:PutObject",
+        "s3:GetObject",
+        "s3:ListBucket"
+      ],
+      "Resource": "*"
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy_attachment" "gitlab_ci_role_policy_attachment" {
+  role       = aws_iam_role.gitlab_ci_role.name
+  policy_arn = aws_iam_policy.gitlab_ci_policy.arn
+}
+
 # module "elasticbeanstalk" {
 #   source = "./elasticbeanstalk"
 # }

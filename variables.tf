@@ -51,3 +51,9 @@ variable "gitlab_pat" {
   description = "GitLab Personal Access Token"
   type        = string
 }
+
+
+variable "aws_account_id" {
+  description = "Your AWS Account ID"
+  type        = string
+}
