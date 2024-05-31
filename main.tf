@@ -153,11 +153,42 @@ resource "aws_iam_policy" "gitlab_ci_policy" {
 EOF
 }
 
+resource "aws_iam_policy" "ecr_policy" {
+  name        = "ecr-policy"
+  description = "Policy for ECR operations"
+
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ecr:GetAuthorizationToken",
+        "ecr:BatchCheckLayerAvailability",
+        "ecr:BatchGetImage",
+        "ecr:GetDownloadUrlForLayer",
+        "ecr:InitiateLayerUpload",
+        "ecr:UploadLayerPart",
+        "ecr:CompleteLayerUpload",
+        "ecr:PutImage"
+      ],
+      "Resource": "*"
+    }
+  ]
+}
+EOF
+}
+
 resource "aws_iam_role_policy_attachment" "gitlab_ci_role_policy_attachment" {
   role       = aws_iam_role.gitlab_ci_role.name
   policy_arn = aws_iam_policy.gitlab_ci_policy.arn
 }
 
+resource "aws_iam_user_policy_attachment" "gitlab_ci_user_ecr_policy_attachment" {
+  user       = aws_iam_user.gitlab_ci_user.name
+  policy_arn = aws_iam_policy.ecr_policy.arn
+}
 # module "elasticbeanstalk" {
 #   source = "./elasticbeanstalk"
 # }
