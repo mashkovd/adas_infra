@@ -97,7 +97,8 @@ resource "aws_iam_user_policy" "gitlab_ci_user_policy" {
         "elasticbeanstalk:DescribeApplicationVersions",
         "s3:PutObject",
         "s3:GetObject",
-        "s3:ListBucket"
+        "s3:ListBucket",
+        "iam:ListAccessKeys"
       ],
       "Resource": "*"
     }
