@@ -54,7 +54,6 @@ output "server_ip" {
 }
 
 
-
 provider "aws" {
   region     = var.aws_region
   access_key = var.access_key
@@ -190,6 +189,7 @@ resource "aws_iam_user_policy_attachment" "gitlab_ci_user_ecr_policy_attachment"
   user       = aws_iam_user.gitlab_ci_user.name
   policy_arn = aws_iam_policy.ecr_policy.arn
 }
-# module "elasticbeanstalk" {
-#   source = "./elasticbeanstalk"
-# }
+
+module "elasticbeanstalk" {
+  source = "./elasticbeanstalk"
+}
