@@ -6,7 +6,7 @@ This project sets up infrastructure for the ADAS project on Hetzner Cloud and sa
 
 1. Install Terraform. See the [official site](https://learn.hashicorp.com/tutorials/terraform/install-cli) for instructions.
 
-2. Copy `variables.tf.example` to `terraform.tfvars` and set your `hcloud_token`.
+2. Copy `variables.tf.example` to `terraform.tfvars` and set all variables.
 
 3. Initialize Terraform with your AWS access key and secret key:
 
