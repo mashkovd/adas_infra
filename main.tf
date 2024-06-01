@@ -193,3 +193,7 @@ resource "aws_iam_user_policy_attachment" "gitlab_ci_user_ecr_policy_attachment"
 module "elasticbeanstalk" {
   source = "./elasticbeanstalk"
 }
+
+module "aws-af-south-1" {
+  source = "./aws-af-south-1/s3"
+}
