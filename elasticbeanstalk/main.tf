@@ -33,13 +33,13 @@ resource "aws_iam_role" "beanstalk_instance_role" {
   name = "${var.app_name}-beanstalk-instance-role"
 
   assume_role_policy = jsonencode({
-    "Version" : "2012-10-17",
-    "Statement" : [{
-      "Effect" : "Allow",
-      "Principal" : {
-        "Service" : "ec2.amazonaws.com"
+    "Version": "2012-10-17",
+    "Statement": [{
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "ec2.amazonaws.com"
       },
-      "Action" : "sts:AssumeRole"
+      "Action": "sts:AssumeRole"
     }]
   })
 }
@@ -62,7 +62,7 @@ resource "aws_elastic_beanstalk_application" "beanstalk_app" {
 resource "aws_elastic_beanstalk_environment" "beanstalk_env" {
   name                = var.environment_name
   application         = aws_elastic_beanstalk_application.beanstalk_app.name
-  solution_stack_name = "64bit Amazon Linux 2023 v4.3.2 running Docker"
+  solution_stack_name = "64bit Amazon Linux 2023 v4.0.8 running ECS"
 
   setting {
     namespace = "aws:autoscaling:launchconfiguration"
