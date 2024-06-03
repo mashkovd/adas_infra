@@ -1,9 +1,3 @@
-# variables.tf
-variable "aws_region" {
-  description = "The AWS region to deploy the infrastructure in"
-  type        = string
-  default     = "ap-south-1"
-}
 
 variable "app_name" {
   description = "The name of the Elastic Beanstalk application"
