@@ -194,6 +194,6 @@ module "elasticbeanstalk" {
   source = "./elasticbeanstalk"
 }
 
-module "aws-af-south-1" {
-  source = "./aws-af-south-1/s3"
-}
+# module "aws-af-south-1" {
+#   source = "./aws-af-south-1/s3"
+# }

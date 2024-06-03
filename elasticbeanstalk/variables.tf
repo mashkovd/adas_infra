@@ -2,7 +2,7 @@
 variable "aws_region" {
   description = "The AWS region to deploy the infrastructure in"
   type        = string
-  default     = "eu-north-1"
+  default     = "ap-south-1"
 }
 
 variable "app_name" {
@@ -26,5 +26,5 @@ variable "s3_bucket_name" {
 variable "ecr_repository_name" {
   description = "The name of the ECR repository"
   type        = string
-  default     = "ugdas-repo"
+  default     = "ugdas-ecr-repo"
 }
