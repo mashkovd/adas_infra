@@ -20,7 +20,7 @@ variable "environment_name" {
 variable "s3_bucket_name" {
   description = "The name of the S3 bucket for Elastic Beanstalk"
   type        = string
-  default     = "ugdas-bucket"
+  default     = "ugdas-s3-bucket"
 }
 
 variable "ecr_repository_name" {

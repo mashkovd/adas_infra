@@ -54,6 +54,20 @@ resource "aws_iam_role_policy_attachment" "beanstalk_instance_policy_attachment_
   policy_arn = "arn:aws:iam::aws:policy/AWSElasticBeanstalkMulticontainerDocker"
 }
 
+resource "aws_iam_role_policy" "additional_ec2_permissions" {
+  name = "${var.app_name}-additional-ec2-permissions"
+  role = aws_iam_role.beanstalk_instance_role.id
+
+  policy = jsonencode({
+    "Version": "2012-10-17",
+    "Statement": [{
+      "Effect": "Allow",
+      "Action": "ecr:*",
+      "Resource": "*"
+    }]
+  })
+}
+
 resource "aws_elastic_beanstalk_application" "beanstalk_app" {
   name        = var.app_name
   description = "Elastic Beanstalk application for Django"
