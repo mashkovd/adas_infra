@@ -56,7 +56,7 @@ terraform import module.aws-af-south-1.aws_s3_bucket.das-media das-media
 Removing a single resource example:
 
 ```bash
-terraform state rm module.aws-af-south-1.aws_s3_bucket.das-media das-media
+terraform state rm module.aws-af-south-1.aws_s3_bucket.das-media
 ```
 
 If you encounter issues applying changes, you can remove the resource from the state file, fix the issue, and re-import the resource.
