@@ -16,7 +16,9 @@ runcmd:
   - gitlab-runner register --non-interactive --url ${gitlab_url} --registration-token ${gitlab_runner_registration_token} --executor docker --description "Hetzner runner" --tag-list "shell" --run-untagged --locked=false --docker-image "docker:20.10.7" --docker-volumes "/var/run/docker.sock:/var/run/docker.sock" --docker-privileged
 
   - docker run --rm -it gitlab/gitlab-runner-helper:x86_64-6d9dd510
-  - docker tag  gitlab/gitlab-runner-helper:x86_64-6d9dd510 gitlab-runner-helper:11.2.0
+  - docker tag gitlab/gitlab-runner-helper:x86_64-6d9dd510 gitlab-runner-helper:11.2.0
+  - curl -L "https://github.com/docker/compose/releases/download/$(curl -s https://api.github.com/repos/docker/compose/releases/latest | grep -Po '"tag_name": "\K.*?(?=")')/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+  - chmod +x /usr/local/bin/docker-compose
 
 write_files:
   - path: /root/.gitlab_pat
