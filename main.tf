@@ -190,10 +190,82 @@ resource "aws_iam_user_policy_attachment" "gitlab_ci_user_ecr_policy_attachment"
   policy_arn = aws_iam_policy.ecr_policy.arn
 }
 
-module "elasticbeanstalk" {
-  source = "./elasticbeanstalk"
-}
+# module "elasticbeanstalk" {
+#   source = "./elasticbeanstalk"
+# }
 
 # module "aws-af-south-1" {
 #   source = "./aws-af-south-1/s3"
+# }
+
+# module "alb" {
+#   source = "./af-south-1/alb/"
+# }
+#
+# module "auto_scaling" {
+#   source = "./af-south-1/auto_scaling/"
+# }
+
+# module "docdb" {
+#   source = "./af-south-1/docdb/"
+# }
+#
+# module "ec2_instance" {
+#   source = "./af-south-1/ec2_instance/"
+# }
+
+module "ecr" {
+  source = "./af-south-1/ecr/"
+}
+#
+module "ecs" {
+  source = "./af-south-1/ecs/"
+}
+
+module "elastic_beanstalk" {
+  source = "./af-south-1/elastic_beanstalk/"
+}
+
+module "iam" {
+  source = "./af-south-1/iam/"
+}
+
+module "elasticache" {
+  source = "./af-south-1/elasticache/"
+}
+# #
+# # module "identitystore" {
+# #   source = "./af-south-1/identitystore/"
+# # }
+#
+# module "nacl" {
+#   source = "./af-south-1/nacl/"
+# }
+#
+# module "nat" {
+#   source = "./af-south-1/nat/"
+# }
+#
+# module "rds" {
+#   source = "./af-south-1/rds/"
+# }
+#
+# module "route_table" {
+#   source = "./af-south-1/route_table/"
+# }
+#
+module "s3" {
+  source = "./af-south-1/s3/"
+}
+#
+# module "sg" {
+#   source = "./af-south-1/sg/"
+# }
+#
+# module "subnet" {
+#   source = "./af-south-1/subnet/"
+# }
+#
+# module "vpc" {
+#   source = "./af-south-1/vpc/"
 # }
