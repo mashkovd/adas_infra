@@ -40,7 +40,7 @@ terraform destroy
 To reverse engineer existing resources, use Terraformer. For example, to import all resources from AWS in the `eu-north-1` region, excluding IAM and IdentityStore:
 
 ```bash
-terraformer import aws --resources="*" --regions=eu-north-1 --excludes=iam,identitystore
+terraformer import aws --resources="*" --regions=eu-north-1 --excludes=iam,identitystore --profile 211125588594-devops
 ```
 
 Additional options:
@@ -56,11 +56,21 @@ terraform import module.aws-af-south-1.aws_s3_bucket.das-media das-media
 Removing a single resource example:
 
 ```bash
-terraform state rm module.aws-af-south-1.aws_s3_bucket.das-media das-media
+terraform state rm module.aws-af-south-1.aws_s3_bucket.das-media
 ```
 
 If you encounter issues applying changes, you can remove the resource from the state file, fix the issue, and re-import the resource.
 [See more at Terraformer's GitHub page](https://github.com/GoogleCloudPlatform/terraformer)
 
 
-    
+## Generate a diagram 
+
+directly from your Terraform configuration:
+
+```bash
+pluralith login 
+```
+
+```bash
+pluralith graph --author "dmitrii.mashkov" --title "ADAS Project Infrastructure" --version "0.0.1"
+```
